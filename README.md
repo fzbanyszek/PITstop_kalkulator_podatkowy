@@ -1,1 +1,1 @@
-# ibkr_tax_calc
+# PITstop_kalkulator_podatkowy
