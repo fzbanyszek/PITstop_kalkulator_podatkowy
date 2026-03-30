@@ -1,6 +1,5 @@
-from ibkr_classes.ibkr_trade import Trade
 
-class Position:
+class IbkrPosition:
     def __init__(self, symbol: str):
         self.symbol = symbol
         self.trades = []

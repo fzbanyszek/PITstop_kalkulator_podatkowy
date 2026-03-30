@@ -1,0 +1,102 @@
+import pandas as pd
+from ibkr_classes.ibkrDataOperations import get_cleaned_df, get_data_from_csv, get_applicable_exchange_rate
+from ibkr_classes.ibkrPosition import IbkrPosition
+from ibkr_classes.ibkrTrade import IbkrTrade
+
+
+
+class IbkrPortfolio:
+    positions: dict[str, IbkrPosition]
+    dataframes: list[pd.DataFrame]
+    cleaned_and_merged_df: pd.DataFrame
+
+
+
+    def __init__(self, first_path, *other_paths):
+        self.paths = [first_path] + list(other_paths)
+
+
+
+    def clean_raw_data(self):
+        self.dataframes = []
+        for path in self.paths:
+            raw_df = get_data_from_csv(path)
+            cleaned_df = get_cleaned_df(raw_df)
+            self.dataframes.append(cleaned_df)
+
+
+
+    def merge_cleaned_data(self):
+        self.cleaned_and_merged_df = pd.concat(self.dataframes, ignore_index=True)
+
+
+
+    def fetch_all_exchange_rates_into_df(self):
+        for index, row in self.cleaned_and_merged_df.iterrows():
+            date_of_transaction = row['Date/Time']
+            if pd.notna(date_of_transaction):
+                currency = row['Currency']
+                rate = get_applicable_exchange_rate(currency, date_of_transaction)
+
+                self.cleaned_and_merged_df.at[index, 'Rate'] = rate
+                if rate:
+                    self.cleaned_and_merged_df.at[index, 'Proceeds in PLN'] = rate * float(row['Proceeds'])
+                    self.cleaned_and_merged_df.at[index, 'Comm in PLN'] = rate * float(row['Comm/Fee'])
+
+
+
+    def save_merged_and_cleaned_data_to_csv(self):
+        self.cleaned_and_merged_df.to_csv("merged_and_cleaned.csv", index=False, encoding='utf-8')
+
+
+
+    def load_portfolio_as_csv(self, file_path: str):
+        try:
+            df = pd.read_csv(file_path)
+            if 'Date/Time' in df.columns:
+                df['Date/Time'] = pd.to_datetime(df['Date/Time'], errors='coerce')
+            self.cleaned_and_merged_df = df
+        except FileNotFoundError:
+            print(f"Błąd: Nie znaleziono pliku pod ścieżką: {file_path}")
+        except Exception as e:
+            print(f"Wystąpił nieoczekiwany błąd: {e}")
+
+
+
+    def create_positions(self):
+        positions_dict = {}
+
+        for _, row in self.cleaned_and_merged_df.iterrows():
+            symbol = row["Symbol"]
+
+            trade = IbkrTrade(
+                asset=row["Asset Category"],
+                currency=row["Currency"],
+                symbol=row["Symbol"],
+                date=row["Date/Time"],
+                quantity=row["Quantity"],
+                proceeds=row["Proceeds"],
+                comm_fee=row["Comm/Fee"],
+                rate=row["Rate"],
+                proceeds_in_PLN=row["Proceeds in PLN"],
+                comm_in_PLN=row["Comm in PLN"]
+            )
+
+            if symbol not in positions_dict:
+                positions_dict[symbol] = IbkrPosition(symbol)
+
+            positions_dict[symbol].add_trade(trade)
+
+        self.positions = positions_dict
+
+
+
+    def build_portfolio(self):
+        self.clean_raw_data()
+        self.merge_cleaned_data()
+        self.fetch_all_exchange_rates_into_df()
+        self.create_positions()
+
+
+
+        

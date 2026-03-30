@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 @dataclass
-class Trade:
+class IbkrTrade:
     asset: str
     currency: str
     symbol: str
