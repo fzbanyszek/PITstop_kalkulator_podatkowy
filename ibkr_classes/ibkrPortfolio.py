@@ -1,5 +1,6 @@
 import pandas as pd
-from ibkr_classes.ibkrDataOperations import get_cleaned_df, get_data_from_csv, get_applicable_exchange_rate
+from ibkr_classes.ibkrDataOperations import get_cleaned_df, get_data_from_csv, get_applicable_exchange_rate, \
+    get_data_from_file
 from ibkr_classes.ibkrPosition import IbkrPosition
 from ibkr_classes.ibkrTrade import IbkrTrade
 
@@ -27,7 +28,7 @@ class IbkrPortfolio:
 
     def clean_raw_data_from_files(self):
         for path in self.files:
-            raw_df = get_data_from_csv(path)
+            raw_df = get_data_from_file(path)
             cleaned_df = get_cleaned_df(raw_df)
             self.dataframes.append(cleaned_df)
 
