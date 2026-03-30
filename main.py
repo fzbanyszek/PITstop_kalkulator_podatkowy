@@ -16,8 +16,11 @@ uploaded_files = st.file_uploader(
 
 if uploaded_files:
     st.success(f"Liczba wybranych plików: {len(uploaded_files)}")
+    portfolio = IbkrPortfolio(*uploaded_files)
+    portfolio.build_portfolio()
 
     if st.button("Przetwórz pliki"):
+        st.dataframe(portfolio.cleaned_and_merged_df, use_container_width=True)
         progress_bar = st.progress(0, text="Start przetwarzania...")
         status_placeholder = st.empty()
 
