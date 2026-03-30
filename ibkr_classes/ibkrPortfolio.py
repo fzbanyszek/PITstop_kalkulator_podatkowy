@@ -45,17 +45,35 @@ class IbkrPortfolio:
 
 
 
+    # def fetch_all_exchange_rates_into_df(self):
+    #     for index, row in self.cleaned_and_merged_df.iterrows():
+    #         date_of_transaction = row['Date/Time']
+    #         if pd.notna(date_of_transaction):
+    #             currency = row['Currency']
+    #             rate = get_applicable_exchange_rate(currency, date_of_transaction)
+    #
+    #             self.cleaned_and_merged_df.at[index, 'Rate'] = rate
+    #             if rate:
+    #                 self.cleaned_and_merged_df.at[index, 'Proceeds in PLN'] = rate * float(row['Proceeds'])
+    #                 self.cleaned_and_merged_df.at[index, 'Comm in PLN'] = rate * float(row['Comm/Fee'])
+
     def fetch_all_exchange_rates_into_df(self):
-        for index, row in self.cleaned_and_merged_df.iterrows():
+        total = len(self.cleaned_and_merged_df)
+
+        for i, (index, row) in enumerate(self.cleaned_and_merged_df.iterrows(), start=1):
             date_of_transaction = row['Date/Time']
+
             if pd.notna(date_of_transaction):
                 currency = row['Currency']
                 rate = get_applicable_exchange_rate(currency, date_of_transaction)
 
                 self.cleaned_and_merged_df.at[index, 'Rate'] = rate
+
                 if rate:
                     self.cleaned_and_merged_df.at[index, 'Proceeds in PLN'] = rate * float(row['Proceeds'])
                     self.cleaned_and_merged_df.at[index, 'Comm in PLN'] = rate * float(row['Comm/Fee'])
+
+            yield i / total
 
 
 
@@ -108,7 +126,10 @@ class IbkrPortfolio:
     def build_portfolio(self):
         self.clean_raw_data_from_files()
         self.merge_cleaned_data()
-        self.fetch_all_exchange_rates_into_df()
+
+        for progress in self.fetch_all_exchange_rates_into_df():
+            yield progress
+
         self.create_positions()
 
 

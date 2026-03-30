@@ -1,6 +1,5 @@
-from ibkr_classes.ibkrPortfolio import IbkrPortfolio
-import time
 import streamlit as st
+from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 
 st.set_page_config(page_title="Upload plików", page_icon="📁")
 
@@ -20,22 +19,25 @@ if uploaded_files:
         progress_bar = st.progress(0, text="Start przetwarzania...")
         status_placeholder = st.empty()
 
-        total_files = len(uploaded_files)
-
-        # Pasek postępu dla plików
-        for i, uploaded_file in enumerate(uploaded_files, start=1):
-            percent = int(((i - 1) / total_files) * 100)
-            progress_bar.progress(
-                percent,
-                text=f"Przygotowanie pliku {i}/{total_files}: {uploaded_file.name}"
-            )
-            status_placeholder.write(f"Przygotowywanie: **{uploaded_file.name}**")
-            time.sleep(0.2)
-
         try:
-            # Ważne: tworzenie i przetwarzanie dopiero po kliknięciu
+            status_placeholder.info("Tworzenie obiektu portfela...")
             portfolio = IbkrPortfolio(*uploaded_files)
-            portfolio.build_portfolio()
+
+            status_placeholder.info("Przetwarzanie danych...")
+            last_percent = 0
+
+            for progress in portfolio.build_portfolio():
+                percent = int(progress * 100)
+
+                # zabezpieczenie, żeby progress nie cofał się przez zaokrąglenia
+                if percent < last_percent:
+                    percent = last_percent
+                last_percent = percent
+
+                progress_bar.progress(
+                    percent,
+                    text=f"Przetwarzanie danych... {percent}%"
+                )
 
             progress_bar.progress(100, text="Przetwarzanie zakończone")
             status_placeholder.success("Wszystkie pliki zostały przetworzone.")
@@ -44,6 +46,7 @@ if uploaded_files:
             st.dataframe(portfolio.cleaned_and_merged_df, use_container_width=True)
 
         except Exception as e:
+            status_placeholder.empty()
             st.error(f"Błąd podczas przetwarzania plików: {e}")
 else:
     st.info("Najpierw wybierz co najmniej jeden plik.")
