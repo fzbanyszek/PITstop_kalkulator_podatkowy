@@ -1,12 +1,16 @@
 import io
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
 import requests
 
-from classes.position import Position
+from classes.ibkr_position import Position
+from classes.ibkr_trade import Trade
+
 
 class Portfolio:
-    positions: list[Position]
+    positions: dict[str, Position]
 
     def __init__(self, first_path, *other_paths):
         self.paths = [first_path] + list(other_paths)
@@ -19,7 +23,7 @@ class Portfolio:
 
             self.dataframes.append(prepared_df)
 
-        self.dataframe = pd.concat(self.dataframes, ignore_index=True)
+        self.ibkr_prepared_for_calc_df = pd.concat(self.dataframes, ignore_index=True)
 
 
     @staticmethod
@@ -92,9 +96,11 @@ class Portfolio:
 
 
     def save_all_data_to_csv(self):
-        Portfolio.fetch_all_exchange_rates_into_ibkr_dataframe(self.dataframe)
+        Portfolio.fetch_all_exchange_rates_into_ibkr_dataframe(self.ibkr_prepared_for_calc_df)
 
-        self.dataframe.to_csv("merged.csv", index=False, encoding='utf-8')
+        self.ibkr_prepared_for_calc_df.to_csv("merged.csv", index=False, encoding='utf-8')
+
+
 
 
     def load_portfolio_csv(self, file_path: str):
@@ -102,12 +108,39 @@ class Portfolio:
             df = pd.read_csv(file_path)
             if 'Date/Time' in df.columns:
                 df['Date/Time'] = pd.to_datetime(df['Date/Time'], errors='coerce')
-            self.dataframe = df
+            self.ibkr_prepared_for_calc_df = df
         except FileNotFoundError:
             print(f"Błąd: Nie znaleziono pliku pod ścieżką: {file_path}")
         except Exception as e:
             print(f"Wystąpił nieoczekiwany błąd: {e}")
 
     def createPositions(self):
-        self.positions = {}
+        positions_dict = {}
+
+        for _, row in self.ibkr_prepared_for_calc_df.iterrows():
+            symbol = row["Symbol"]
+
+            trade = Trade(
+                asset=row["Asset Category"],
+                currency=row["Currency"],
+                symbol=row["Symbol"],
+                date=row["Date/Time"],
+                quantity=row["Quantity"],
+                proceeds=row["Proceeds"],
+                comm_fee=row["Comm/Fee"],
+                rate=row["Rate"],
+                proceeds_in_PLN=row["Proceeds in PLN"],
+                comm_in_PLN=row["Comm in PLN"]
+            )
+
+            if symbol not in positions_dict:
+                positions_dict[symbol] = Position(symbol)
+
+            positions_dict[symbol].add_trade(trade)
+
+        self.positions = positions_dict
+
+
+
+
         
