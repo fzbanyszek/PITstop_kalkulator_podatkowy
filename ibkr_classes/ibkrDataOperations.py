@@ -22,7 +22,20 @@ def get_data_from_csv(path):
 
 def get_data_from_file(file):
     file.seek(0)
-    return pd.read_csv(file)
+    content = file.read()
+
+    if isinstance(content, bytes):
+        content = content.decode("utf-8-sig", errors="replace")
+
+    filtr = "".join(
+        line for line in content.splitlines(True)
+        if line.startswith("Trades")
+    )
+
+    if not filtr.strip():
+        raise ValueError(f"W pliku {getattr(file, 'name', 'bez nazwy')} nie znaleziono sekcji Trades.")
+
+    return pd.read_csv(io.StringIO(filtr))
 
 def get_exchange_rate(currency, date):
     base_base = "https://api.nbp.pl/api/exchangerates/rates/A"
