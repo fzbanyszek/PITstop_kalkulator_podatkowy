@@ -1,4 +1,4 @@
-from classes.ibkr_trade import Trade
+from ibkr_classes.ibkr_trade import Trade
 
 class Position:
     def __init__(self, symbol: str):

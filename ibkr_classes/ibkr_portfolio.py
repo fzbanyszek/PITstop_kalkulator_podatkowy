@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import requests
 
-from classes.ibkr_position import Position
-from classes.ibkr_trade import Trade
+from ibkr_classes.ibkr_position import Position
+from ibkr_classes.ibkr_trade import Trade
 
 
 class Portfolio:
