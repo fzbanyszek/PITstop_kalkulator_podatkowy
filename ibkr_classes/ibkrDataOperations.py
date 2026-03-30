@@ -20,6 +20,10 @@ def get_data_from_csv(path):
         result = pd.read_csv(io.StringIO(filtr))
         return result
 
+def get_data_from_file(file):
+    file.seek(0)
+    return pd.read_csv(file)
+
 def get_exchange_rate(currency, date):
     base_base = "https://api.nbp.pl/api/exchangerates/rates/A"
     url = f"{base_base}/{currency}/{date}/?format=json"

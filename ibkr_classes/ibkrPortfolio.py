@@ -12,14 +12,21 @@ class IbkrPortfolio:
 
 
 
-    def __init__(self, first_path, *other_paths):
-        self.paths = [first_path] + list(other_paths)
+    # def __init__(self, first_path, *other_paths):
+    #     self.paths = [first_path] + list(other_paths)
+
+    def __init__(self, first_file, *other_files):
+        self.files = [first_file] + list(other_files)
 
 
+    # def clean_raw_data_from_paths(self):
+    #     for path in self.paths:
+    #         raw_df = get_data_from_csv(path)
+    #         cleaned_df = get_cleaned_df(raw_df)
+    #         self.dataframes.append(cleaned_df)
 
-    def clean_raw_data(self):
-        self.dataframes = []
-        for path in self.paths:
+    def clean_raw_data_from_files(self):
+        for path in self.files:
             raw_df = get_data_from_csv(path)
             cleaned_df = get_cleaned_df(raw_df)
             self.dataframes.append(cleaned_df)
@@ -92,7 +99,7 @@ class IbkrPortfolio:
 
 
     def build_portfolio(self):
-        self.clean_raw_data()
+        self.clean_raw_data_from_files()
         self.merge_cleaned_data()
         self.fetch_all_exchange_rates_into_df()
         self.create_positions()
