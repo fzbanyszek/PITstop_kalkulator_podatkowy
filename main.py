@@ -4,7 +4,6 @@ from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 st.set_page_config(page_title="Upload plików", page_icon="📁")
 
 st.title("PITstop - kalkulator podatkowy")
-st.write("test")
 
 uploaded_files = st.file_uploader(
     "Wybierz pliki",
