@@ -7,6 +7,9 @@ class IbkrPosition:
     def add_trade(self, trade):
         self.trades.append(trade)
 
+    def sort_trades(self):
+        self.trades.sort(key=lambda trade: trade.date)
+
     def __repr__(self):
         trades_str = "\n  ".join(repr(t) for t in self.trades)
         return f"Position(symbol={self.symbol}):\n  {trades_str}\n\n\n"

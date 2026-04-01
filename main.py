@@ -31,7 +31,6 @@ if uploaded_files:
                 percent = int(progress * 100)
                 progress_bar.progress(percent, text=f"Przetwarzanie danych... {percent}%")
 
-            # ZAPIS DO SESJI - to sprawi, że dane nie znikną
             st.session_state.portfolio = portfolio_obj
 
             progress_bar.progress(100, text="Przetwarzanie zakończone")

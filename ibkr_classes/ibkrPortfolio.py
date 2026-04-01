@@ -119,6 +119,9 @@ class IbkrPortfolio:
 
             positions_dict[symbol].add_trade(trade)
 
+        for position in positions_dict.values():
+            position.sort_trades()
+
         self.positions = positions_dict
 
 
