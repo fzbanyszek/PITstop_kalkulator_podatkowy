@@ -5,6 +5,9 @@ from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 
 st.set_page_config(page_title="Upload plików", page_icon="📁")
 
+if "portfolio" not in st.session_state:
+    st.session_state.portfolio = None
+
 st.title("PITstop - kalkulator podatkowy")
 
 uploaded_files = st.file_uploader(
