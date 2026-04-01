@@ -73,7 +73,9 @@ if st.session_state.portfolio is not None:
         }
     )
 
-    with st.expander("Zobacz historię transakcji"):
-        st.dataframe(df, use_container_width=True)
+    with st.expander("Pokaż historię transakcji (wszystkie lata)"):
+        display_df = df.copy()
+        display_df.index = display_df.index + 1
+        st.dataframe(display_df, use_container_width=True)
 else:
     st.info("Wgraj i przetwórz pliki, aby odblokować wybór roku i kalkulację zysków.")
