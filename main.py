@@ -5,6 +5,8 @@ st.set_page_config(page_title="Upload plików", page_icon="📁")
 
 st.title("PITstop - kalkulator podatkowy")
 
+selected_year = st.sidebar.number_input("Rok podatkowy", min_value=2010, max_value=2026, value=2025)
+
 uploaded_files = st.file_uploader(
     "Wybierz pliki",
     accept_multiple_files=True,
