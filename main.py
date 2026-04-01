@@ -78,3 +78,11 @@ if st.session_state.portfolio is not None:
         st.dataframe(display_df, use_container_width=True)
 else:
     st.info("Wgraj i przetwórz pliki, aby odblokować wybór roku i kalkulację zysków.")
+
+st.markdown("---")
+st.markdown(
+    "<div style='text-align: center; color: #808495; font-size: 0.9em;'>"
+    "Developed by <b>Karolina Ratajczyk</b> and <b>Filip Zbanyszek</b>"
+    "</div>",
+    unsafe_allow_html=True
+)
