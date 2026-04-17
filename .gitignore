@@ -227,3 +227,6 @@ datasets/
 
 # --- Logs and temporary files ---
 tmp/
+
+
+!nyse_closed_days_2024_2025.csv

@@ -1,6 +1,6 @@
 import pandas as pd
 from ibkr_classes.ibkrDataOperations import get_cleaned_df, get_data_from_csv, get_applicable_exchange_rate, \
-    get_data_from_file
+    get_data_from_file, get_settlement_date
 from ibkr_classes.ibkrPosition import IbkrPosition
 from ibkr_classes.ibkrTrade import IbkrTrade
 
@@ -31,12 +31,12 @@ class IbkrPortfolio:
 
 
 
-    def clean_raw_data_from_files(self):
-        self.dataframes = []
-        for path in self.files:
-            raw_df = get_data_from_file(path)
-            cleaned_df = get_cleaned_df(raw_df)
-            self.dataframes.append(cleaned_df)
+    # def clean_raw_data_from_files(self):
+    #     self.dataframes = []
+    #     for path in self.files:
+    #         raw_df = get_data_from_file(path)
+    #         cleaned_df = get_cleaned_df(raw_df)
+    #         self.dataframes.append(cleaned_df)
 
 
 
@@ -65,7 +65,8 @@ class IbkrPortfolio:
 
             if pd.notna(date_of_transaction):
                 currency = row['Currency']
-                rate = get_applicable_exchange_rate(currency, date_of_transaction)
+                settlement_date = get_settlement_date(date_of_transaction)
+                rate = get_applicable_exchange_rate(currency, settlement_date)
 
                 self.cleaned_and_merged_df.at[index, 'Rate'] = rate
 

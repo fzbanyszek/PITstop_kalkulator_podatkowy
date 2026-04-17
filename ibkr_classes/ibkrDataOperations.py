@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import requests
 
+
 def get_cleaned_df(df):
     selected_cols = ['Asset Category', 'Currency', 'Symbol', 'Date/Time', 'Quantity', 'Proceeds', 'Comm/Fee']
     df = df[df['Asset Category'] != 'Forex'].copy()
@@ -47,7 +48,7 @@ def get_exchange_rate(currency, date):
             rate = data['rates'][0]['mid']
             return rate
         elif response.status_code == 404:
-            return "No data for this date"
+            return "No calendar_files for this date"
         else:
             return f"Error: {response.status_code}"
     except requests.exceptions.RequestException as e:
@@ -63,7 +64,14 @@ def get_applicable_exchange_rate(currency, date):
 
         if isinstance(result, (float, int)):
             return result
-        elif result == "No data for this date":
+        elif result == "No calendar_files for this date":
             current_search_date -= pd.Timedelta(days=1)
         else:
             return f"Error: {result}"
+
+def get_settlement_date(transaction_date, closed_days_list):
+    transaction_date = pd.to_datetime(transaction_date).normalize()
+    settlement_date = transaction_date + pd.Timedelta(days=1)
+    while (settlement_date in closed_days_list) or (settlement_date.weekday() >= 5):
+        settlement_date += pd.Timedelta(days=1)
+    return settlement_date
