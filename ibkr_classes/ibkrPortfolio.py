@@ -31,12 +31,12 @@ class IbkrPortfolio:
 
 
 
-    # def clean_raw_data_from_files(self):
-    #     self.dataframes = []
-    #     for path in self.files:
-    #         raw_df = get_data_from_file(path)
-    #         cleaned_df = get_cleaned_df(raw_df)
-    #         self.dataframes.append(cleaned_df)
+    def clean_raw_data_from_files(self):
+        self.dataframes = []
+        for path in self.files:
+            raw_df = get_data_from_file(path)
+            cleaned_df = get_cleaned_df(raw_df)
+            self.dataframes.append(cleaned_df)
 
 
 
