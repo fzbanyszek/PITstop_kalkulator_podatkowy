@@ -17,7 +17,7 @@ pg = st.navigation(
 
 st.set_page_config(
     page_title="PITstop",
-    page_icon="assets/logo_and_name.png",
+    page_icon="assets/logo_small.png",
     layout="wide"
 )
 
