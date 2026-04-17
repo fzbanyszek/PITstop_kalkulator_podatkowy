@@ -1,5 +1,13 @@
 import streamlit as st
 
+st.markdown("""
+<style>
+button[title="View fullscreen"] {
+    visibility: hidden;
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.image("assets/logo_and_name.png", width=220)
 
 st.title("PITstop")
