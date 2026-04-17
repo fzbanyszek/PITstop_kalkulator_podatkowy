@@ -218,7 +218,6 @@ __marimo__/
 data/
 datasets/
 
-# Ignore specific data file extensions
 *.csv
 *.json
 *.sql
