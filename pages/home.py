@@ -2,8 +2,8 @@ import streamlit as st
 
 st.markdown("""
 <style>
-button[title="View fullscreen"] {
-    visibility: hidden;
+[data-testid="stImage"] button {
+    display: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
