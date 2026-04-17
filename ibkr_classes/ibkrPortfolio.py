@@ -1,4 +1,6 @@
 import pandas as pd
+
+from calendar_files.calendar import Calendar
 from ibkr_classes.ibkrDataOperations import get_cleaned_df, get_data_from_csv, get_applicable_exchange_rate, \
     get_data_from_file, get_settlement_date
 from ibkr_classes.ibkrPosition import IbkrPosition
@@ -10,7 +12,7 @@ class IbkrPortfolio:
     positions: dict[str, IbkrPosition]
     dataframes: list[pd.DataFrame]
     cleaned_and_merged_df: pd.DataFrame
-
+    calendar = Calendar("calendar_files/nyse_closed_days_2024_2025.csv")
 
 
     # def __init__(self, first_path, *other_paths):
@@ -65,7 +67,7 @@ class IbkrPortfolio:
 
             if pd.notna(date_of_transaction):
                 currency = row['Currency']
-                settlement_date = get_settlement_date(date_of_transaction)
+                settlement_date = get_settlement_date(date_of_transaction, self.calendar.closed_days_list)
                 rate = get_applicable_exchange_rate(currency, settlement_date)
 
                 self.cleaned_and_merged_df.at[index, 'Rate'] = rate
