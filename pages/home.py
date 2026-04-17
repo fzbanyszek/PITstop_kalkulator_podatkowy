@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.image("assets/logo_and_name.png", width=220)
+
 st.title("PITstop")
 st.subheader("Kalkulator podatkowy dla danych z Interactive Brokers")
 
