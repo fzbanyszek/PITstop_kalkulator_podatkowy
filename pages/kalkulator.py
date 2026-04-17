@@ -3,12 +3,6 @@ import pandas as pd
 from ibkr_classes.ibkrCalculator import IbkrCalculator
 from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 
-st.set_page_config(
-    page_title="PITstop - Kalkulator",
-    page_icon="📈",
-    layout="wide"
-)
-
 if "portfolio" not in st.session_state:
     st.session_state.portfolio = None
 
@@ -49,7 +43,6 @@ if st.session_state.portfolio is not None:
     st.header("Kalkulacja zysków")
 
     df = st.session_state.portfolio.cleaned_and_merged_df.copy()
-
     df["Date/Time"] = pd.to_datetime(df["Date/Time"])
     available_years = sorted(df["Date/Time"].dt.year.unique().tolist(), reverse=True)
 
@@ -76,8 +69,7 @@ if st.session_state.portfolio is not None:
     results_df = pd.DataFrame(
         list(profits_dict.items()),
         columns=["Symbol", "Zysk (PLN)"]
-    )
-    results_df = results_df.sort_values(by="Zysk (PLN)", ascending=False)
+    ).sort_values(by="Zysk (PLN)", ascending=False)
 
     st.dataframe(
         results_df,
@@ -92,7 +84,6 @@ if st.session_state.portfolio is not None:
         display_df = df.copy()
         display_df.index = display_df.index + 1
         st.dataframe(display_df, use_container_width=True)
-
 else:
     st.info("Wgraj i przetwórz pliki, aby odblokować wybór roku i kalkulację zysków.")
 

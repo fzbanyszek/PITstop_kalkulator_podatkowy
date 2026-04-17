@@ -6,15 +6,13 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("PITstop")
-st.subheader("Kalkulator podatkowy dla danych z Interactive Brokers")
+home_page = st.Page("views/home.py", title="Strona tytułowa", icon="🏠")
+calculator_page = st.Page("views/kalkulator.py", title="Kalkulator podatkowy", icon="📈")
+settings_page = st.Page("views/ustawienia.py", title="Ustawienia", icon="⚙️")
 
-st.markdown("""
-Ta aplikacja pozwala:
-- wczytać pliki CSV z danymi transakcyjnymi,
-- zbudować portfel,
-- policzyć zrealizowane zyski dla wybranego roku podatkowego,
-- przejrzeć historię transakcji.
-""")
+pg = st.navigation(
+    [home_page, calculator_page, settings_page],
+    position="sidebar"
+)
 
-st.info("Wybierz stronę z menu po lewej stronie.")
+pg.run()
