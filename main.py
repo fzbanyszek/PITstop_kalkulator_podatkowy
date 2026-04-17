@@ -15,4 +15,10 @@ pg = st.navigation(
     position="sidebar"
 )
 
+st.set_page_config(
+    page_title="PITstop",
+    page_icon="assets/logo_and_name.png",
+    layout="wide"
+)
+
 pg.run()
