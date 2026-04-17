@@ -1,14 +1,6 @@
 import streamlit as st
 
-st.markdown("""
-<style>
-[data-testid="stImage"] button {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.image("assets/logo_and_name.png", width=220)
+st.image("assets/logo_and_name.png", width=700)
 
 st.title("PITstop")
 st.subheader("Kalkulator podatkowy dla danych z Interactive Brokers")
