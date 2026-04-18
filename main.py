@@ -7,12 +7,7 @@ st.set_page_config(
 )
 
 with st.sidebar:
-    st.html("""
-        <div style="padding: 0.5rem 0 1rem 0;">
-            <img src="app/static/logo_and_name.png"
-                 style="width: 260px; max-width: 100%; height: auto; display: block;">
-        </div>
-    """)
+    st.image("assets/logo_and_name.png", width=280)
 
 home_page = st.Page("pages/home.py", title="Strona tytułowa")
 calculator_page = st.Page("pages/kalkulator.py", title="Kalkulator podatkowy")
