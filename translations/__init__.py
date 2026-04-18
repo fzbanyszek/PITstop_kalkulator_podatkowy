@@ -2,8 +2,8 @@ import streamlit as st
 
 
 LANGUAGE_OPTIONS = {
-    "🇬🇧 English": "en",
-    "🇵🇱 Polski": "pl",
+    "English": "en",
+    "Polski": "pl",
 }
 
 
