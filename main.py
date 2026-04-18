@@ -23,7 +23,7 @@ with st.sidebar:
     st.page_link("pages/kalkulator.py", label="Kalkulator podatkowy", icon="📈")
     st.page_link("pages/ustawienia.py", label="Ustawienia", icon="⚙️")
 
-    st.markdown("<div style='height: 25vh;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 20vh;'></div>", unsafe_allow_html=True)
 
     language = st.selectbox(
         "Język",
