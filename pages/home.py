@@ -1,13 +1,16 @@
 import streamlit as st
 
-from translations import translate
-from translations.home import TRANSLATIONS as HOME_TRANSLATIONS
-
-t = lambda key, **kwargs: translate(HOME_TRANSLATIONS, key, **kwargs)
-
 st.image("assets/logo_and_name.png", width=700)
 
-st.title(t("title"))
-st.subheader(t("subtitle"))
-st.markdown(t("description"))
-st.info(t("info"))
+st.title("PITstop")
+st.subheader("Kalkulator podatkowy dla danych z Interactive Brokers")
+
+st.markdown("""
+Ta aplikacja pozwala:
+- wczytać pliki CSV,
+- zbudować portfel transakcji,
+- policzyć zrealizowane zyski dla wybranego roku podatkowego,
+- przejrzeć historię transakcji.
+""")
+
+st.info("Wybierz stronę z menu po lewej stronie.")
