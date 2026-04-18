@@ -15,16 +15,13 @@ pg = st.navigation(
     position="hidden"
 )
 
-st.markdown("""
-<style>
-.language-box {
-    position: fixed;
-    bottom: 20px;
-    width: 220px;
-    z-index: 999;
+language_options = {
+    "Polski": "pl",
+    "English": "en"
 }
-</style>
-""", unsafe_allow_html=True)
+
+if "language" not in st.session_state:
+    st.session_state.language = "pl"
 
 with st.sidebar:
     st.image("assets/logo_and_name.png", width=280)
@@ -34,12 +31,12 @@ with st.sidebar:
     st.page_link("pages/kalkulator.py", label="Kalkulator podatkowy")
     st.page_link("pages/ustawienia.py", label="Ustawienia")
 
-    st.markdown('<div class="language-box">', unsafe_allow_html=True)
-    language = st.selectbox(
+    selected_label = st.selectbox(
         "Język",
-        ["Polski", "English"],
-        index=0
+        list(language_options.keys()),
+        index=list(language_options.values()).index(st.session_state.language)
     )
-    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.session_state.language = language_options[selected_label]
 
 pg.run()
