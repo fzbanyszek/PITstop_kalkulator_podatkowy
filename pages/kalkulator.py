@@ -4,7 +4,7 @@ import pandas as pd
 from ibkr_classes.ibkrCalculator import IbkrCalculator
 from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 from translations import translate
-from translations.calculator import TRANSLATIONS as CALC_TRANSLATIONS
+from translations.kalkulator import TRANSLATIONS as CALC_TRANSLATIONS
 
 t = lambda key, **kwargs: translate(CALC_TRANSLATIONS, key, **kwargs)
 
