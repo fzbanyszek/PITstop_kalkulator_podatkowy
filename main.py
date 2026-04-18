@@ -17,7 +17,7 @@ t = lambda key, **kwargs: translate(COMMON_TRANSLATIONS, key, **kwargs)
 
 home_page = st.Page("pages/home.py", title=t("page_home"),default=True)
 calculator_page = st.Page("pages/kalkulator.py", title=t("page_calculator"))
-settings_page = st.Page("pages/ustawienia.py", title=t("page_settings"))
+settings_page = st.Page("pages/settings.py", title=t("page_settings"))
 
 pg = st.navigation(
     [home_page, calculator_page, settings_page],
@@ -35,7 +35,7 @@ with st.sidebar:
 
     st.page_link("pages/home.py", label=t("page_home"))
     st.page_link("pages/kalkulator.py", label=t("page_calculator"))
-    st.page_link("pages/ustawienia.py", label=t("page_settings"))
+    st.page_link("pages/settings.py", label=t("page_settings"))
 
     st.markdown("---")
 
