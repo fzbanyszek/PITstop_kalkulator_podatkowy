@@ -6,16 +6,20 @@ st.set_page_config(
     layout="wide"
 )
 
-with st.sidebar:
-    st.image("assets/logo_and_name.png", width=280)
-
 home_page = st.Page("pages/home.py", title="Strona tytułowa")
 calculator_page = st.Page("pages/kalkulator.py", title="Kalkulator podatkowy")
 settings_page = st.Page("pages/ustawienia.py", title="Ustawienia")
 
 pg = st.navigation(
     [home_page, calculator_page, settings_page],
-    position="sidebar"
+    position="hidden"
 )
+
+with st.sidebar:
+    st.image("assets/logo_and_name.png", width=280)
+    st.markdown("---")
+    st.page_link("pages/home.py", label="Strona tytułowa")
+    st.page_link("pages/kalkulator.py", label="Kalkulator podatkowy")
+    st.page_link("pages/ustawienia.py", label="Ustawienia")
 
 pg.run()
