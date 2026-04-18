@@ -6,7 +6,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.logo("assets/logo_small.png")
+st.logo("assets/logo_and_name.png", size="large")
 
 home_page = st.Page("pages/home.py", title="Strona tytułowa")
 calculator_page = st.Page("pages/kalkulator.py", title="Kalkulator podatkowy")
