@@ -1,4 +1,9 @@
 import streamlit as st
 
-st.title("Ustawienia")
-st.info("Ta sekcja jest na razie pusta.")
+from translations import translate
+from translations.ustawienia import TRANSLATIONS as SETTINGS_TRANSLATIONS
+
+t = lambda key, **kwargs: translate(SETTINGS_TRANSLATIONS, key, **kwargs)
+
+st.title(t("title"))
+st.info(t("empty"))
