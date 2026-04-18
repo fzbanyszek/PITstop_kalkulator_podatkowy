@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 LANGUAGE_OPTIONS = {
     "English": "en",
     "Polski": "pl",
@@ -23,3 +22,8 @@ def translate(translations: dict, key: str, **kwargs) -> str:
             return text
 
     return text
+
+
+def sync_language():
+    selected_label = st.session_state.language_selector
+    st.session_state.language = LANGUAGE_OPTIONS[selected_label]
