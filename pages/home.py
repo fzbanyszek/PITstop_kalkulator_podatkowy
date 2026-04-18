@@ -2,7 +2,6 @@ import streamlit as st
 from translations import translate
 from translations.home import TRANSLATIONS as HOME_TRANSLATIONS
 
-# Funkcja pomocnicza do tłumaczeń
 th = lambda key: translate(HOME_TRANSLATIONS, key)
 
 st.title(th("title"))
@@ -10,6 +9,8 @@ st.write(th("intro"))
 
 st.header(th("how_it_works_title"))
 st.write(th("how_it_works_desc"))
+
+st.divider()
 
 col1, col2 = st.columns(2)
 
