@@ -21,46 +21,45 @@ if "portfolio" not in st.session_state:
 st.title(t("title"))
 st.divider()
 
-with st.expander(t("tutorial_expander")):
-    st.markdown(t("tutorial_content"))
-
-    test1_path = Path("test_files/test_file_2024.csv")
-    test2_path = Path("test_files/test_file_2025.csv")
-
-    if test1_path.exists() and test2_path.exists():
-        st.markdown(t("test_files_section"))
-
-        with open(test1_path, "rb") as f:
-            test1_bytes = f.read()
-
-        with open(test2_path, "rb") as f:
-            test2_bytes = f.read()
-
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-            zip_file.writestr("test_file_2024.csv", test1_bytes)
-            zip_file.writestr("test_file_2025.csv", test2_bytes)
-        zip_buffer.seek(0)
-
-        st.download_button(
-            label=t("download_test_zip"),
-            data=zip_buffer,
-            file_name="pitstop_test_files.zip",
-            mime="application/zip",
-            use_container_width=True
-        )
-    else:
-        st.info(t("test_files_missing"))
-
-st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
-# st.info(t('info_before_upload'))
-# st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
-
 uploaded_files = st.file_uploader(
     t("upload_label"),
     accept_multiple_files=True,
     type=["csv"]
 )
+
+st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+
+st.markdown(t("tutorial_content"))
+
+test1_path = Path("test_files/test_file_2024.csv")
+test2_path = Path("test_files/test_file_2025.csv")
+
+if test1_path.exists() and test2_path.exists():
+    st.markdown(t("test_files_section"))
+
+    with open(test1_path, "rb") as f:
+        test1_bytes = f.read()
+
+    with open(test2_path, "rb") as f:
+        test2_bytes = f.read()
+
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+        zip_file.writestr("test_file_2024.csv", test1_bytes)
+        zip_file.writestr("test_file_2025.csv", test2_bytes)
+    zip_buffer.seek(0)
+
+    st.download_button(
+        label=t("download_test_zip"),
+        data=zip_buffer,
+        file_name="pitstop_test_files.zip",
+        mime="application/zip",
+        use_container_width=True
+    )
+else:
+    st.info(t("test_files_missing"))
+
+st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
 
 if uploaded_files:
     # st.success(t("files_selected", count=len(uploaded_files)))
