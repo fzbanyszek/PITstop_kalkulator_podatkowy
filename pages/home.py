@@ -1,8 +1,11 @@
 import streamlit as st
-from translations import translate
 from translations.home import TRANSLATIONS as HOME_TRANSLATIONS
+from translations import translate
+from translations.common import TRANSLATIONS as COMMON_TRANSLATIONS
+
 
 th = lambda key: translate(HOME_TRANSLATIONS, key)
+tc = lambda key: translate(COMMON_TRANSLATIONS, key)
 
 st.title(th("title"))
 st.write(th("intro"))
@@ -52,3 +55,14 @@ st.header(th("test_files_title"))
 st.write(th("test_files_desc"))
 
 st.warning(f"**{th('legal_title')}**: {th('legal_desc')}")
+
+
+st.markdown("---")
+st.markdown(
+    f"""
+    <div style='text-align: center; color: #808495; font-size: 0.9em;'>
+    {tc("footer_authors")}
+    </div>
+    """,
+    unsafe_allow_html=True
+)
