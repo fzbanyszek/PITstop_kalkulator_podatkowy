@@ -54,7 +54,7 @@ if test1_path.exists() and test2_path.exists():
         data=zip_buffer,
         file_name="pitstop_test_files.zip",
         mime="application/zip",
-        use_container_width=True
+        use_container_width=False
     )
 else:
     st.info(t("test_files_missing"))
@@ -128,7 +128,7 @@ if st.session_state.portfolio is not None:
 
         st.dataframe(
             results_df,
-            use_container_width=False,
+            use_container_width=True,
             hide_index=True,
             column_config={
                 t("profit_col"): st.column_config.NumberColumn(format="%.2f PLN")
