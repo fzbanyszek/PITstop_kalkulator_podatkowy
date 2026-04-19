@@ -53,8 +53,8 @@ with st.expander(t("tutorial_expander")):
         st.info(t("test_files_missing"))
 
 st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
-st.info(t('info_before_upload'))
-st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
+# st.info(t('info_before_upload'))
+# st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
 
 
 uploaded_files = st.file_uploader(
@@ -69,6 +69,15 @@ if uploaded_files:
     if st.button(t("process_button")):
         progress_bar = st.progress(0, text=t("progress_start"))
         status_placeholder = st.empty()
+
+        st.markdown("---")
+        st.markdown(
+            f"""
+            <div style='text-align: center; color: #808495; font-size: 0.9em;'>
+            {tc("footer_authors")}
+            </div>
+            """,
+            unsafe_allow_html=True)
 
         try:
             portfolio_obj = IbkrPortfolio(*uploaded_files)
