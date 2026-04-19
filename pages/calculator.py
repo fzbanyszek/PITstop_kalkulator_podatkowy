@@ -27,6 +27,32 @@ uploaded_files = st.file_uploader(
     type=["csv"]
 )
 
+if uploaded_files:
+    # st.success(t("files_selected", count=len(uploaded_files)))
+
+    if st.button(t("process_button")):
+        progress_bar = st.progress(0, text=t("progress_start"))
+        status_placeholder = st.empty()
+
+        try:
+            portfolio_obj = IbkrPortfolio(*uploaded_files)
+
+            for progress in portfolio_obj.build_portfolio():
+                percent = int(progress * 100)
+                progress_bar.progress(
+                    percent,
+                    text=t("progress_processing", percent=percent)
+                )
+
+            st.session_state.portfolio = portfolio_obj
+
+            progress_bar.progress(100, text=t("progress_done"))
+            status_placeholder.success(t("success"))
+            st.rerun()
+
+        except Exception as e:
+            st.error(t("error", error=e))
+
 st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 
 st.markdown(t("tutorial_content"))
@@ -60,39 +86,6 @@ else:
     st.info(t("test_files_missing"))
 
 st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
-
-if uploaded_files:
-    # st.success(t("files_selected", count=len(uploaded_files)))
-
-    if st.button(t("process_button")):
-        progress_bar = st.progress(0, text=t("progress_start"))
-        status_placeholder = st.empty()
-
-        st.markdown("---")
-        st.markdown(
-            f"""
-            <div style='text-align: center; color: #808495; font-size: 0.9em;'>
-            {tc("footer_authors")}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-        try:
-            portfolio_obj = IbkrPortfolio(*uploaded_files)
-
-            for progress in portfolio_obj.build_portfolio():
-                percent = int(progress * 100)
-                progress_bar.progress(percent, text=t("progress_processing", percent=percent))
-
-            st.session_state.portfolio = portfolio_obj
-
-            progress_bar.progress(100, text=t("progress_done"))
-            status_placeholder.success(t("success"))
-            st.rerun()
-
-        except Exception as e:
-            st.error(t("error", error=e))
 
 if st.session_state.portfolio is not None:
     st.divider()
