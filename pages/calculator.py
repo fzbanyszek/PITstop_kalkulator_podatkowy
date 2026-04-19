@@ -13,6 +13,9 @@ if "portfolio" not in st.session_state:
 
 st.title(t("title"))
 
+with st.expander(t("tutorial_expander")):
+    st.markdown(t("tutorial_content"))
+
 uploaded_files = st.file_uploader(
     t("upload_label"),
     accept_multiple_files=True,
