@@ -1,3 +1,7 @@
+import io
+import zipfile
+from pathlib import Path
+
 import streamlit as st
 import pandas as pd
 
@@ -18,6 +22,34 @@ st.title(t("title"))
 
 with st.expander(t("tutorial_expander")):
     st.markdown(t("tutorial_content"))
+
+    test1_path = Path("test_files/test_file_2024.csv")
+    test2_path = Path("test_files/test_file_2025.csv")
+
+    if test1_path.exists() and test2_path.exists():
+        st.markdown(t("test_files_section"))
+
+        with open(test1_path, "rb") as f:
+            test1_bytes = f.read()
+
+        with open(test2_path, "rb") as f:
+            test2_bytes = f.read()
+
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+            zip_file.writestr("test_file_2024.csv", test1_bytes)
+            zip_file.writestr("test_file_2025.csv", test2_bytes)
+        zip_buffer.seek(0)
+
+        st.download_button(
+            label=t("download_test_zip"),
+            data=zip_buffer,
+            file_name="pitstop_test_files.zip",
+            mime="application/zip",
+            use_container_width=True
+        )
+    else:
+        st.info(t("test_files_missing"))
 
 uploaded_files = st.file_uploader(
     t("upload_label"),
