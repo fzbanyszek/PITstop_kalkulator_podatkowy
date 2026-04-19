@@ -56,7 +56,6 @@ st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
 # st.info(t('info_before_upload'))
 # st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
 
-
 uploaded_files = st.file_uploader(
     t("upload_label"),
     accept_multiple_files=True,
@@ -64,7 +63,7 @@ uploaded_files = st.file_uploader(
 )
 
 if uploaded_files:
-    #st.success(t("files_selected", count=len(uploaded_files)))
+    # st.success(t("files_selected", count=len(uploaded_files)))
 
     if st.button(t("process_button")):
         progress_bar = st.progress(0, text=t("progress_start"))
@@ -77,7 +76,8 @@ if uploaded_files:
             {tc("footer_authors")}
             </div>
             """,
-            unsafe_allow_html=True)
+            unsafe_allow_html=True
+        )
 
         try:
             portfolio_obj = IbkrPortfolio(*uploaded_files)
@@ -121,27 +121,25 @@ if st.session_state.portfolio is not None:
         value=f"{total_profit:,.2f} PLN"
     )
 
-    st.subheader(t("by_symbol_header"))
+    with st.expander(t("by_symbol_header")):
+        results_df = pd.DataFrame(
+            list(profits_dict.items()),
+            columns=[t("symbol_col"), t("profit_col")]
+        ).sort_values(by=t("profit_col"), ascending=False)
 
-    results_df = pd.DataFrame(
-        list(profits_dict.items()),
-        columns=[t("symbol_col"), t("profit_col")]
-    ).sort_values(by=t("profit_col"), ascending=False)
-
-    st.dataframe(
-        results_df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            t("profit_col"): st.column_config.NumberColumn(format="%.2f PLN")
-        }
-    )
+        st.dataframe(
+            results_df,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                t("profit_col"): st.column_config.NumberColumn(format="%.2f PLN")
+            }
+        )
 
     with st.expander(t("history_expander")):
         display_df = df.copy()
         display_df.index = display_df.index + 1
         st.dataframe(display_df, use_container_width=True)
-
 
 st.markdown("---")
 st.markdown(
