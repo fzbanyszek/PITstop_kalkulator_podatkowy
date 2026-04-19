@@ -61,7 +61,7 @@ uploaded_files = st.file_uploader(
 )
 
 if uploaded_files:
-    st.success(t("files_selected", count=len(uploaded_files)))
+    #st.success(t("files_selected", count=len(uploaded_files)))
 
     if st.button(t("process_button")):
         progress_bar = st.progress(0, text=t("progress_start"))
