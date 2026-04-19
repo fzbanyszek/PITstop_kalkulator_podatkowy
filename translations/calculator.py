@@ -18,7 +18,6 @@ TRANSLATIONS = {
         "profit_col": "Profit (PLN)",
         "history_expander": "Show transaction history (all years)",
         "info_before_upload": "Upload and process files to unlock year selection and profit calculation.",
-        "footer_authors": "Developed by <b>Karolina Ratajczyk</b> and <b>Filip Zbanyszek</b>",
         "tutorial_expander": "Tutorial - how to use PITstop",
         "tutorial_content": """
 1. Upload one or more CSV files exported from Interactive Brokers.
@@ -55,7 +54,6 @@ Important: the result is only an estimate and does not constitute tax advice.
         "profit_col": "Zysk (PLN)",
         "history_expander": "Pokaż historię transakcji (wszystkie lata)",
         "info_before_upload": "Wgraj i przetwórz pliki, aby odblokować wybór roku i kalkulację zysków.",
-        "footer_authors": "Developed by <b>Karolina Ratajczyk</b> and <b>Filip Zbanyszek</b>",
         "tutorial_expander": "Tutorial - jak korzystać z PITstop",
         "tutorial_content": """
 1. Wgraj jeden lub kilka plików CSV wyeksportowanych z Interactive Brokers.

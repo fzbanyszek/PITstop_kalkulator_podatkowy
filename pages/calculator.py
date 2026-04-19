@@ -5,8 +5,11 @@ from ibkr_classes.ibkrCalculator import IbkrCalculator
 from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 from translations import translate
 from translations.calculator import TRANSLATIONS as CALC_TRANSLATIONS
+from translations.common import TRANSLATIONS as COMMON_TRANSLATIONS
+
 
 t = lambda key, **kwargs: translate(CALC_TRANSLATIONS, key, **kwargs)
+tc = lambda key: translate(COMMON_TRANSLATIONS, key)
 
 if "portfolio" not in st.session_state:
     st.session_state.portfolio = None
@@ -99,7 +102,7 @@ st.markdown("---")
 st.markdown(
     f"""
     <div style='text-align: center; color: #808495; font-size: 0.9em;'>
-    {t("footer_authors")}
+    {tc("footer_authors")}
     </div>
     """,
     unsafe_allow_html=True
