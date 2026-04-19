@@ -130,8 +130,7 @@ if st.session_state.portfolio is not None:
         display_df = df.copy()
         display_df.index = display_df.index + 1
         st.dataframe(display_df, use_container_width=True)
-else:
-    st.info(t("info_before_upload"))
+
 
 st.markdown("---")
 st.markdown(
