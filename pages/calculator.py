@@ -68,7 +68,6 @@ if uploaded_files:
         status_placeholder = st.empty()
 
         try:
-            status_placeholder.info(t("status_creating_portfolio"))
             portfolio_obj = IbkrPortfolio(*uploaded_files)
 
             for progress in portfolio_obj.build_portfolio():
