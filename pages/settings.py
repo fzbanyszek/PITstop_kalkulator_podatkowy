@@ -10,6 +10,7 @@ tc = lambda key: translate(COMMON_TRANSLATIONS, key)
 st.title(t("title"))
 st.divider()
 
+st.subheader(t("display_section"))
 on = st.toggle(t("dark_mode"), disabled=True)
 
 
