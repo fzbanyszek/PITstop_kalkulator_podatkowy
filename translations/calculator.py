@@ -18,25 +18,25 @@ TRANSLATIONS = {
         "profit_col": "Profit (PLN)",
         "history_expander": "Show transaction history (all years)",
         "info_before_upload": "Upload and process files to unlock year selection and profit calculation.",
-        "tutorial_expander": "Tutorial - jak korzystać z PITstop",
+        "tutorial_expander": "Tutorial - how to use PITstop",
 "tutorial_content": """
-1. Wgraj jeden lub kilka plików CSV wyeksportowanych z Interactive Brokers.
+1. Upload one or more CSV files exported from Interactive Brokers.
 
-2. Kliknij przycisk przetwarzania plików, aby zbudować portfel transakcji.
+2. Click the file processing button to build your transaction portfolio.
 
-3. Poczekaj, aż aplikacja wyliczy settlement date, pobierze kursy NBP i przeliczy wartości na PLN.
+3. Wait until the app calculates settlement dates, downloads NBP exchange rates, and converts values to PLN.
 
-4. Po zakończeniu wybierz rok podatkowy, który chcesz przeanalizować.
+4. After processing, choose the tax year you want to analyze.
 
-5. Sprawdź łączny zrealizowany zysk oraz zestawienie wyniku według symboli.
+5. Review the total realized profit and the profit breakdown by symbol.
 
-6. Rozwiń historię transakcji, aby przejrzeć wszystkie zaimportowane operacje.
+6. Open transaction history to inspect all imported operations.
 
-Ważne: wynik ma charakter pomocniczy i nie stanowi porady podatkowej.
+Important: the result is only an estimate and does not constitute tax advice.
 """,
-"test_files_section": "Możesz też pobrać przykładowe pliki testowe:",
-"download_test_zip": "Pobierz testowe pliki CSV",
-"test_files_missing": "Pliki testowe nie są obecnie dostępne w aplikacji.",
+"test_files_section": "You can also download sample test files:",
+"download_test_zip": "Download test CSV files",
+"test_files_missing": "Test files are currently not available in the app.",
     },
     "pl": {
         "title": "PITstop - kalkulator podatkowy",
