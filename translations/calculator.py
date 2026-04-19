@@ -1,6 +1,6 @@
 TRANSLATIONS = {
     "en": {
-        "title": "PITstop - tax calculator",
+        "title": "Tax calculator",
         "upload_label": "Choose files",
         "files_selected": "Number of selected files: {count}",
         "process_button": "Process files",
@@ -18,7 +18,7 @@ TRANSLATIONS = {
         "profit_col": "Profit (PLN)",
         "history_expander": "Show transaction history (all years)",
         "info_before_upload": "Upload and process files to unlock year selection and profit calculation.",
-        "tutorial_expander": "Tutorial - how to use PITstop",
+        "tutorial_expander": "How to use?",
 "tutorial_content": """
 1. Upload one or more CSV files exported from Interactive Brokers.
 
@@ -39,7 +39,7 @@ Important: the result is only an estimate and does not constitute tax advice.
 "test_files_missing": "Test files are currently not available in the app.",
     },
     "pl": {
-        "title": "PITstop - kalkulator podatkowy",
+        "title": "Kalkulator podatkowy",
         "upload_label": "Wybierz pliki",
         "files_selected": "Liczba wybranych plików: {count}",
         "process_button": "Przetwórz pliki",
@@ -57,7 +57,7 @@ Important: the result is only an estimate and does not constitute tax advice.
         "profit_col": "Zysk (PLN)",
         "history_expander": "Pokaż historię transakcji (wszystkie lata)",
         "info_before_upload": "Wgraj i przetwórz pliki, aby odblokować wybór roku i kalkulację zysków.",
-        "tutorial_expander": "Tutorial - jak korzystać z PITstop",
+        "tutorial_expander": "Jak korzystać?",
 "tutorial_content": """
 1. Wgraj jeden lub kilka plików CSV wyeksportowanych z Interactive Brokers.
 

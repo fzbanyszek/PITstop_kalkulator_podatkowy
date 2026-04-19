@@ -52,6 +52,8 @@ with st.expander(t("tutorial_expander")):
     else:
         st.info(t("test_files_missing"))
 
+st.markdown("<div style='height: 100px;'></div>", unsafe_allow_html=True)
+
 uploaded_files = st.file_uploader(
     t("upload_label"),
     accept_multiple_files=True,
