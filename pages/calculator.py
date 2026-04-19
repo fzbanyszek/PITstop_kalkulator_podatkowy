@@ -19,14 +19,7 @@ if "portfolio" not in st.session_state:
     st.session_state.portfolio = None
 
 st.title(t("title"))
-
-
-
-uploaded_files = st.file_uploader(
-    t("upload_label"),
-    accept_multiple_files=True,
-    type=["csv"]
-)
+st.divider()
 
 with st.expander(t("tutorial_expander")):
     st.markdown(t("tutorial_content"))
@@ -58,6 +51,12 @@ with st.expander(t("tutorial_expander")):
         )
     else:
         st.info(t("test_files_missing"))
+
+uploaded_files = st.file_uploader(
+    t("upload_label"),
+    accept_multiple_files=True,
+    type=["csv"]
+)
 
 if uploaded_files:
     st.success(t("files_selected", count=len(uploaded_files)))
