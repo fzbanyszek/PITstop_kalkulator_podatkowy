@@ -1,10 +1,10 @@
 TRANSLATIONS = {
     "en": {
         "title": "Settings",
-        "empty": "This section is empty for now.",
+        "dark_mode": "Dark mode",
     },
     "pl": {
         "title": "Ustawienia",
-        "empty": "Ta sekcja jest na razie pusta.",
+        "dark_mode": "Tryb ciemny",
     },
 }

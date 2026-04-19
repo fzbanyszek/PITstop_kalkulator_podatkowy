@@ -8,7 +8,8 @@ t = lambda key, **kwargs: translate(SETTINGS_TRANSLATIONS, key, **kwargs)
 tc = lambda key: translate(COMMON_TRANSLATIONS, key)
 
 st.title(t("title"))
-st.info(t("empty"))
+
+on = st.toggle(t("dark_mode"))
 
 
 
