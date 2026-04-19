@@ -17,7 +17,7 @@ TRANSLATIONS = {
         "symbol_col": "Symbol",
         "profit_col": "Profit (PLN)",
         "history_expander": "Show transaction history (all years)",
-        "info_before_upload": "Upload and process files to unlock year selection and profit calculation.",
+        "info_before_upload": "Upload files to calculate profit.",
         "tutorial_expander": "How to use?",
 "tutorial_content": """
 1. Upload one or more CSV files exported from Interactive Brokers.
@@ -56,7 +56,7 @@ Important: the result is only an estimate and does not constitute tax advice.
         "symbol_col": "Symbol",
         "profit_col": "Zysk (PLN)",
         "history_expander": "Pokaż historię transakcji (wszystkie lata)",
-        "info_before_upload": "Wgraj i przetwórz pliki, aby odblokować wybór roku i kalkulację zysków.",
+        "info_before_upload": "Wgraj pliki, aby obliczyć zysk.",
         "tutorial_expander": "Jak korzystać?",
 "tutorial_content": """
 1. Wgraj jeden lub kilka plików CSV wyeksportowanych z Interactive Brokers.
