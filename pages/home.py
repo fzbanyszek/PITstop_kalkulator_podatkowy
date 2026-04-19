@@ -37,8 +37,9 @@ st.divider()
 st.header(th("more_than_calc_title"))
 st.write(th("more_than_calc_desc"))
 
-st.info(f"**{th('review_title')}**: {th('review_desc')}")
-st.info(f"**{th('grouping_title')}**: {th('grouping_desc')}")
+st.markdown(f"- **{th('review_title')}**: {th('review_desc')}")
+st.markdown(f"- **{th('grouping_title')}**: {th('grouping_desc')}")
+
 
 st.divider()
 
