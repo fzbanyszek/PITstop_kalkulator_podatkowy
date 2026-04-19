@@ -53,7 +53,7 @@ if uploaded_files:
         except Exception as e:
             st.error(t("error", error=e))
 
-st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height: 60px;'></div>", unsafe_allow_html=True)
 
 st.markdown(t("tutorial_content"))
 
@@ -61,7 +61,7 @@ test1_path = Path("test_files/test_file_2024.csv")
 test2_path = Path("test_files/test_file_2025.csv")
 
 if test1_path.exists() and test2_path.exists():
-    st.markdown("<div style='height: 40px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 60px;'></div>", unsafe_allow_html=True)
     st.markdown(t("test_files_section"))
 
     with open(test1_path, "rb") as f:
