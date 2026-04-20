@@ -1,6 +1,6 @@
 import pandas as pd
 
-from calendar_files.calendar import Calendar
+from calendar_files.calendar import Calendar, global_calendar
 from ibkr_classes.ibkrDataOperations import get_cleaned_df, get_data_from_csv, get_applicable_exchange_rate, \
     get_data_from_file, get_settlement_date
 from ibkr_classes.ibkrPosition import IbkrPosition
@@ -12,7 +12,7 @@ class IbkrPortfolio:
     positions: dict[str, IbkrPosition]
     dataframes: list[pd.DataFrame]
     cleaned_and_merged_df: pd.DataFrame
-    calendar = Calendar("calendar_files/nyse_closed_days_2024_2025.csv")
+    calendar = global_calendar
 
 
     # def __init__(self, first_path, *other_paths):

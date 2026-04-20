@@ -13,36 +13,27 @@ import numpy as np
 def get_cleaned_df(df):
     selected_cols = ['Asset Category', 'Currency', 'Symbol', 'Date/Time', 'Quantity', 'Proceeds', 'Comm/Fee']
 
-    # 1. Filtrowanie
     df = df[df['Asset Category'] != 'Forex'].copy()
 
-    # 2. Naprawa kolumn liczbowych
     numeric_cols = ['Quantity', 'Proceeds', 'Comm/Fee']
 
     for col in numeric_cols:
-        # Konwertujemy na string, usuwamy przecinki i białe znaki
-        # fillna('') jest ważne, żeby nie próbować robić replace na wartościach null
         df[col] = (
             df[col]
             .astype(str)
             .str.replace(',', '', regex=False)
             .str.strip()
         )
-        # Zamieniamy na float - błędy (np. puste stringi) zamieniamy na 0 lub NaN
         df[col] = pd.to_numeric(df[col], errors='coerce')
 
-    # 3. Wybór kolumn i inicjalizacja nowych
-    # Upewniamy się, że kolumny istnieją w df przed wyborem
     df = df[selected_cols].copy()
 
     df['Rate'] = np.nan
     df['Proceeds in PLN'] = np.nan
     df['Comm in PLN'] = np.nan
 
-    # 4. Konwersja daty
     df["Date/Time"] = pd.to_datetime(df["Date/Time"], format="%Y-%m-%d, %H:%M:%S", errors="coerce")
 
-    # Usuwamy wiersze bez daty (np. podsumowania w IBKR)
     df = df.dropna(subset=['Date/Time'])
 
     return df
