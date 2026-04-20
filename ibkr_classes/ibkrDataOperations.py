@@ -6,29 +6,33 @@ import requests
 import pandas as pd
 import numpy as np
 
+import pandas as pd
+import numpy as np
+
 
 def get_cleaned_df(df):
     selected_cols = ['Asset Category', 'Currency', 'Symbol', 'Date/Time', 'Quantity', 'Proceeds', 'Comm/Fee']
 
-    # 1. Filtrowanie kategorii
+    # 1. Odfiltrowanie Forexu
     df = df[df['Asset Category'] != 'Forex'].copy()
 
-    # 2. Czyszczenie separatorów w kolumnach liczbowych
-    # Wybieramy kolumny, które powinny być liczbami
-    numeric_cols = ['Quantity', 'Proceeds', 'Comm/Fee']
-
-    for col in numeric_cols:
-        if df[col].dtype == 'object':  # Jeśli kolumna jest tekstem
+    # 2. CZYSZCZENIE LICZB (Kluczowy krok naprawiający ValueError: could not convert string to float)
+    cols_to_fix = ['Quantity', 'Proceeds', 'Comm/Fee']
+    for col in cols_to_fix:
+        if df[col].dtype == 'object':
             # Usuwamy przecinki i zamieniamy na float
-            df[col] = df[col].str.replace(',', '', regex=True).astype(float)
+            df[col] = df[col].str.replace(',', '', regex=False).astype(float)
+        else:
+            # Na wypadek gdyby Pandas już to częściowo wczytał jako liczby
+            df[col] = pd.to_numeric(df[col], errors='coerce')
 
-    # 3. Wybór kolumn i dalsza obróbka
+    # 3. Wybór kolumn i inicjalizacja nowych
     df = df[selected_cols]
     df['Rate'] = np.nan
     df['Proceeds in PLN'] = np.nan
     df['Comm in PLN'] = np.nan
 
-    # Konwersja daty
+    # 4. Parsowanie daty
     df["Date/Time"] = pd.to_datetime(df["Date/Time"], format="%Y-%m-%d, %H:%M:%S", errors="coerce")
     df = df.dropna(subset=['Date/Time'])
 
