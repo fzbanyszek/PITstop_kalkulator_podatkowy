@@ -13,27 +13,36 @@ import numpy as np
 def get_cleaned_df(df):
     selected_cols = ['Asset Category', 'Currency', 'Symbol', 'Date/Time', 'Quantity', 'Proceeds', 'Comm/Fee']
 
-    # 1. Odfiltrowanie Forexu
+    # 1. Filtrowanie
     df = df[df['Asset Category'] != 'Forex'].copy()
 
-    # 2. CZYSZCZENIE LICZB (Kluczowy krok naprawiający ValueError: could not convert string to float)
-    cols_to_fix = ['Quantity', 'Proceeds', 'Comm/Fee']
-    for col in cols_to_fix:
-        if df[col].dtype == 'object':
-            # Usuwamy przecinki i zamieniamy na float
-            df[col] = df[col].str.replace(',', '', regex=False).astype(float)
-        else:
-            # Na wypadek gdyby Pandas już to częściowo wczytał jako liczby
-            df[col] = pd.to_numeric(df[col], errors='coerce')
+    # 2. Naprawa kolumn liczbowych
+    numeric_cols = ['Quantity', 'Proceeds', 'Comm/Fee']
+
+    for col in numeric_cols:
+        # Konwertujemy na string, usuwamy przecinki i białe znaki
+        # fillna('') jest ważne, żeby nie próbować robić replace na wartościach null
+        df[col] = (
+            df[col]
+            .astype(str)
+            .str.replace(',', '', regex=False)
+            .str.strip()
+        )
+        # Zamieniamy na float - błędy (np. puste stringi) zamieniamy na 0 lub NaN
+        df[col] = pd.to_numeric(df[col], errors='coerce')
 
     # 3. Wybór kolumn i inicjalizacja nowych
-    df = df[selected_cols]
+    # Upewniamy się, że kolumny istnieją w df przed wyborem
+    df = df[selected_cols].copy()
+
     df['Rate'] = np.nan
     df['Proceeds in PLN'] = np.nan
     df['Comm in PLN'] = np.nan
 
-    # 4. Parsowanie daty
+    # 4. Konwersja daty
     df["Date/Time"] = pd.to_datetime(df["Date/Time"], format="%Y-%m-%d, %H:%M:%S", errors="coerce")
+
+    # Usuwamy wiersze bez daty (np. podsumowania w IBKR)
     df = df.dropna(subset=['Date/Time'])
 
     return df
