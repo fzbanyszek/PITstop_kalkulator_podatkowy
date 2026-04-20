@@ -7,31 +7,23 @@ from ibkr_classes.ibkrPosition import IbkrPosition
 from ibkr_classes.ibkrTrade import IbkrTrade
 
 
-
 class IbkrPortfolio:
     positions: dict[str, IbkrPosition]
     dataframes: list[pd.DataFrame]
     cleaned_and_merged_df: pd.DataFrame
     calendar = global_calendar
 
-
     # def __init__(self, first_path, *other_paths):
     #     self.paths = [first_path] + list(other_paths)
 
-
-
     def __init__(self, first_file, *other_files):
         self.files = [first_file] + list(other_files)
-
-
 
     # def clean_raw_data_from_paths(self):
     #     for path in self.paths:
     #         raw_df = get_data_from_csv(path)
     #         cleaned_df = get_cleaned_df(raw_df)
     #         self.dataframes.append(cleaned_df)
-
-
 
     def clean_raw_data_from_files(self):
         self.dataframes = []
@@ -40,12 +32,8 @@ class IbkrPortfolio:
             cleaned_df = get_cleaned_df(raw_df)
             self.dataframes.append(cleaned_df)
 
-
-
     def merge_cleaned_data(self):
         self.cleaned_and_merged_df = pd.concat(self.dataframes, ignore_index=True)
-
-
 
     # def fetch_all_exchange_rates_into_df(self):
     #     for index, row in self.cleaned_and_merged_df.iterrows():
@@ -78,12 +66,8 @@ class IbkrPortfolio:
 
             yield i / total
 
-
-
     def save_merged_and_cleaned_data_to_csv(self):
         self.cleaned_and_merged_df.to_csv("merged_and_cleaned.csv", index=False, encoding='utf-8')
-
-
 
     def load_portfolio_as_csv(self, file_path: str):
         try:
@@ -95,8 +79,6 @@ class IbkrPortfolio:
             print(f"Błąd: Nie znaleziono pliku pod ścieżką: {file_path}")
         except Exception as e:
             print(f"Wystąpił nieoczekiwany błąd: {e}")
-
-
 
     def create_positions(self):
         positions_dict = {}
@@ -127,8 +109,6 @@ class IbkrPortfolio:
 
         self.positions = positions_dict
 
-
-
     def build_portfolio(self):
         self.clean_raw_data_from_files()
         self.merge_cleaned_data()
@@ -140,4 +120,3 @@ class IbkrPortfolio:
 
 
 
-        

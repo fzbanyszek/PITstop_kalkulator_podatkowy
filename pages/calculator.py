@@ -3,9 +3,7 @@ import zipfile
 from pathlib import Path
 
 import streamlit as st
-import pandas as pd
 
-from ibkr_classes.ibkrCalculator import IbkrCalculator
 from ibkr_classes.ibkrPortfolio import IbkrPortfolio
 from translations import translate
 from translations.calculator import TRANSLATIONS as CALC_TRANSLATIONS
@@ -45,6 +43,8 @@ if uploaded_files:
                 )
 
             st.session_state.portfolio = portfolio_obj
+            st.session_state.results_feedback = "success"
+            st.session_state.open_results_after_processing = True
 
             progress_bar.progress(100, text=t("progress_done"))
             status_placeholder.success(t("success"))
@@ -85,54 +85,6 @@ if test1_path.exists() and test2_path.exists():
     )
 else:
     st.info(t("test_files_missing"))
-
-st.markdown("<div style='height: 30px;'></div>", unsafe_allow_html=True)
-
-if st.session_state.portfolio is not None:
-    st.divider()
-    st.header(t("section_header"))
-
-    df = st.session_state.portfolio.cleaned_and_merged_df.copy()
-    df["Date/Time"] = pd.to_datetime(df["Date/Time"])
-    available_years = sorted(df["Date/Time"].dt.year.unique().tolist(), reverse=True)
-
-    col1, _ = st.columns([1, 2])
-    with col1:
-        selected_year = st.selectbox(t("year_select"), available_years)
-
-    profits_dict = IbkrCalculator.calculate_proceeds_by_symbol(
-        st.session_state.portfolio,
-        selected_year
-    )
-    total_profit = IbkrCalculator.calculate_total_proceeds(
-        st.session_state.portfolio,
-        selected_year
-    )
-
-    st.metric(
-        label=t("total_profit", year=selected_year),
-        value=f"{total_profit:,.2f} PLN"
-    )
-
-    with st.expander(t("by_symbol_header")):
-        results_df = pd.DataFrame(
-            list(profits_dict.items()),
-            columns=[t("symbol_col"), t("profit_col")]
-        ).sort_values(by=t("profit_col"), ascending=False)
-
-        st.dataframe(
-            results_df,
-            use_container_width=True,
-            hide_index=True,
-            column_config={
-                t("profit_col"): st.column_config.NumberColumn(format="%.2f PLN")
-            }
-        )
-
-    with st.expander(t("history_expander")):
-        display_df = df.copy()
-        display_df.index = display_df.index + 1
-        st.dataframe(display_df, use_container_width=True)
 
 st.markdown("---")
 st.markdown(

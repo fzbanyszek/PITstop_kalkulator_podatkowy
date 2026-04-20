@@ -26,7 +26,7 @@ TRANSLATIONS = {
 
 3. Wait until the app calculates settlement dates, downloads NBP exchange rates, and converts values to PLN.
 
-4. After processing, choose the tax year you want to analyze.
+4. After processing, PITstop will open the results page. Choose the tax year you want to analyze there.
 
 5. Review the total realized profit and the profit breakdown by symbol.
 
@@ -65,7 +65,7 @@ Important: the result is only an estimate and does not constitute tax advice.
 
 3. Poczekaj, aż aplikacja wyliczy settlement date, pobierze kursy NBP i przeliczy wartości na PLN.
 
-4. Po zakończeniu wybierz rok podatkowy, który chcesz przeanalizować.
+4. Po zakończeniu PITstop otworzy stronę wyników. Wybierz tam rok podatkowy, który chcesz przeanalizować.
 
 5. Sprawdź łączny zrealizowany zysk oraz zestawienie wyniku według symboli.
 

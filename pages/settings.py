@@ -8,6 +8,9 @@ from translations.common import TRANSLATIONS as COMMON_TRANSLATIONS
 t = lambda key, **kwargs: translate(SETTINGS_TRANSLATIONS, key, **kwargs)
 tc = lambda key: translate(COMMON_TRANSLATIONS, key)
 
+if "calendar_feedback" not in st.session_state:
+    st.session_state.calendar_feedback = None
+
 st.title(t("title"))
 st.divider()
 
@@ -40,6 +43,10 @@ with calendar_table_col:
         )
 
     calendar_feedback = st.empty()
+    feedback_message_key = st.session_state.calendar_feedback
+    if feedback_message_key is not None:
+        calendar_feedback.success(t(feedback_message_key))
+        st.session_state.calendar_feedback = None
 
 with calendar_info_col:
     st.markdown(f"#### {t('calendar_info_title')}")
@@ -60,11 +67,13 @@ if upload_clicked:
         calendar_feedback.warning(t("calendar_upload_missing"))
     else:
         global_calendar.set_calendar(uploaded_file)
-        calendar_feedback.success(t("calendar_upload_success"))
+        st.session_state.calendar_feedback = "calendar_upload_success"
+        st.rerun()
 
 if reset_clicked:
     global_calendar.reset_calendar()
-    calendar_feedback.success(t("calendar_reset_success"))
+    st.session_state.calendar_feedback = "calendar_reset_success"
+    st.rerun()
 
 
 
