@@ -148,7 +148,7 @@ else:
 
         st.dataframe(
             results_df,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
             column_config={
                 t("profit_col"): st.column_config.NumberColumn(format="%.2f PLN")
@@ -166,7 +166,7 @@ else:
         )
 
         display_df.index = display_df.index + 1
-        st.dataframe(display_df, use_container_width=True)
+        st.dataframe(display_df, width="stretch")
 
     report_df = history_df[history_df["Date/Time"].dt.year == selected_year].copy()
     report_pdf = generate_trade_history_pdf(

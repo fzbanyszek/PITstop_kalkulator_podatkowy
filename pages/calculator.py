@@ -81,7 +81,7 @@ if test1_path.exists() and test2_path.exists():
         data=zip_buffer,
         file_name="pitstop_test_files.zip",
         mime="application/zip",
-        use_container_width=False
+        width="content"
     )
 else:
     st.info(t("test_files_missing"))

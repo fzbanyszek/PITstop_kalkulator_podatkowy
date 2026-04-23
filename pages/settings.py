@@ -25,7 +25,7 @@ calendar_table_col, calendar_info_col = st.columns([1.25, 1])
 with calendar_table_col:
     st.dataframe(
         global_calendar.closed_days_df,
-        use_container_width=True
+        width="stretch"
     )
 
     uploaded_file = st.file_uploader(t("calendar_upload_label"), type=["csv"])
@@ -34,12 +34,12 @@ with calendar_table_col:
     with upload_col:
         upload_clicked = st.button(
             t("calendar_upload_button"),
-            use_container_width=True
+            width="stretch"
         )
     with reset_col:
         reset_clicked = st.button(
             t("calendar_reset_button"),
-            use_container_width=True
+            width="stretch"
         )
 
     calendar_feedback = st.empty()
