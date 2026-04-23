@@ -4,6 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from ibkr_classes.ibkrCalculator import IbkrCalculator
+from ibkr_classes.ibkrDataOperations import get_settlement_date
+from ibkr_classes.pdf_report import generate_trade_history_pdf
 from translations import translate
 from translations.common import TRANSLATIONS as COMMON_TRANSLATIONS
 from translations.results import TRANSLATIONS as RESULTS_TRANSLATIONS
@@ -17,6 +19,21 @@ if "portfolio" not in st.session_state:
 
 if "results_feedback" not in st.session_state:
     st.session_state.results_feedback = None
+
+
+def prepare_history_df(source_df: pd.DataFrame, portfolio) -> pd.DataFrame:
+    history_df = source_df.copy()
+
+    if "Settlement Date" not in history_df.columns:
+        closed_days_list = portfolio.calendar.closed_days_list
+        history_df["Settlement Date"] = history_df["Date/Time"].apply(
+            lambda date: get_settlement_date(date, closed_days_list)
+            if pd.notna(date)
+            else pd.NaT
+        )
+
+    return history_df
+
 
 st.markdown(
     """
@@ -84,6 +101,7 @@ if st.session_state.portfolio is None:
 else:
     df = st.session_state.portfolio.cleaned_and_merged_df.copy()
     df["Date/Time"] = pd.to_datetime(df["Date/Time"])
+    history_df = prepare_history_df(df, st.session_state.portfolio)
     available_years = sorted(df["Date/Time"].dt.year.unique().tolist(), reverse=True)
 
     total_profit_placeholder = st.empty()
@@ -123,6 +141,11 @@ else:
             columns=[t("symbol_col"), t("profit_col")]
         ).sort_values(by=t("profit_col"), ascending=False)
 
+        st.markdown(f"#### {t('profit_chart_title')}")
+        st.bar_chart(
+            results_df.set_index(t("symbol_col"))[[t("profit_col")]]
+        )
+
         st.dataframe(
             results_df,
             use_container_width=True,
@@ -133,9 +156,35 @@ else:
         )
 
     with st.expander(t("history_expander")):
-        display_df = df.copy()
+        display_df = history_df.copy()
+        settlement_dates = display_df.pop("Settlement Date")
+        date_time_index = display_df.columns.get_loc("Date/Time") + 1
+        display_df.insert(
+            date_time_index,
+            t("settlement_date_col"),
+            settlement_dates
+        )
+
         display_df.index = display_df.index + 1
         st.dataframe(display_df, use_container_width=True)
+
+    report_df = history_df[history_df["Date/Time"].dt.year == selected_year].copy()
+    report_pdf = generate_trade_history_pdf(
+        report_df,
+        selected_year,
+        total_profit,
+        t("pdf_report_title"),
+        t("pdf_report_table_title"),
+        t("pdf_total_profit_label"),
+    )
+
+    st.download_button(
+        label=t("download_pdf_button"),
+        data=report_pdf,
+        file_name=f"pitstop_report_{selected_year}.pdf",
+        mime="application/pdf",
+        width="stretch",
+    )
 
 st.markdown("---")
 st.markdown(
