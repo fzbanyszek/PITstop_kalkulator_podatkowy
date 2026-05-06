@@ -83,6 +83,27 @@ st.markdown(
     .pitstop-total-value.neutral {
         color: inherit;
     }
+
+    .pitstop-summary-card {
+        border-radius: 0.9rem;
+        padding: 1rem 1.1rem;
+        border: 1px solid rgba(128, 132, 149, 0.24);
+        background: rgba(128, 132, 149, 0.06);
+        margin-bottom: 1rem;
+    }
+
+    .pitstop-summary-label {
+        color: #808495;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+    }
+
+    .pitstop-summary-value {
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.1;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -110,14 +131,17 @@ else:
     with col1:
         selected_year = st.selectbox(t("year_select"), available_years)
 
-    profits_dict = IbkrCalculator.calculate_proceeds_by_symbol(
+    summary = IbkrCalculator.calculate_year_summary(
         st.session_state.portfolio,
-        selected_year
+        selected_year,
     )
-    total_profit = IbkrCalculator.calculate_total_proceeds(
-        st.session_state.portfolio,
-        selected_year
-    )
+    profits_dict = {
+        symbol: values["profit"]
+        for symbol, values in summary["by_symbol"].items()
+    }
+    total_profit = summary["total_profit"]
+    total_revenue = summary["total_revenue"]
+    total_cost = summary["total_cost"]
 
     total_profit_state = "positive"
     if total_profit < 0:
@@ -134,6 +158,28 @@ else:
         """,
         unsafe_allow_html=True
     )
+
+    revenue_col, cost_col = st.columns(2)
+    with revenue_col:
+        st.markdown(
+            f"""
+            <div class="pitstop-summary-card">
+                <div class="pitstop-summary-label">{escape(t("total_revenue", year=selected_year))}</div>
+                <div class="pitstop-summary-value">{total_revenue:,.2f} PLN</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with cost_col:
+        st.markdown(
+            f"""
+            <div class="pitstop-summary-card">
+                <div class="pitstop-summary-label">{escape(t("total_cost", year=selected_year))}</div>
+                <div class="pitstop-summary-value">{total_cost:,.2f} PLN</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     with st.expander(t("by_symbol_header")):
         results_df = pd.DataFrame(
