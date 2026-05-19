@@ -1,3 +1,5 @@
+![image alt](https://github.com/fzbanyszek/PITstop_kalkulator_podatkowy/blob/main/assets/process_scheme.png)
+
 # PITstop Tax Calculator
 
 PITstop is a Streamlit-based tax calculator designed to support Polish investors who trade on the U.S. stock market through Interactive Brokers.
